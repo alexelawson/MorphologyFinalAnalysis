@@ -225,5 +225,47 @@ stats_testing_hypothalamus_s12 <- stats_cluster.animal(data = stats_input_with_s
 stats_testing_hypothalamus_s12[[2]]
 stats_testing_hypothalamus_s12[[3]]
 
+#Checking Individual Features 
+data <- data_frame_final %>% 
+  group_by(MouseID, Sex, Treatment, BrainRegion) %>% 
+  summarise(across("Foreground.pixels":"Maximum.branch.length", ~mean(.x))) %>% 
+  gather(Measure, Value, "Foreground.pixels":"Maximum.branch.length")
+
+# filter out data you want to run stats on and make sure to make any variables included in model into factors
+stats_input <- data %>% filter(BrainRegion=="PVN")
+stats_input$Treatment <- factor(stats_input$Treatment)
+stats_testing <- stats_morphologymeasures.animal(data = stats_input, 
+                                                 model = "Value ~ Treatment*Sex", type="lm",
+                                                 posthoc1 = "~Treatment", 
+                                                 posthoc2 = "~Treatment|Sex", adjust = "sidak")
+
+stats_testing[[1]]
+stats_testing[[2]]
+stats_testing[[3]]
+
+
+stats_input <- data %>% filter(BrainRegion=="HYPO")
+stats_input$Treatment <- factor(stats_input$Treatment)
+stats_testing <- stats_morphologymeasures.animal(data = stats_input, 
+                                                 model = "Value ~ Treatment*Sex", type="lm",
+                                                 posthoc1 = "~Treatment", 
+                                                 posthoc2 = "~Treatment|Sex", adjust = "sidak")
+
+stats_testing[[1]]
+stats_testing[[2]]
+stats_testing[[3]]
+
+
+stats_input <- data %>% filter(BrainRegion=="ARC")
+stats_input$Treatment <- factor(stats_input$Treatment)
+stats_testing <- stats_morphologymeasures.animal(data = stats_input, 
+                                                 model = "Value ~ Treatment*Sex", type="lm",
+                                                 posthoc1 = "~Treatment", 
+                                                 posthoc2 = "~Treatment|Sex", adjust = "sidak")
+
+stats_testing[[1]]
+stats_testing[[2]]
+stats_testing[[3]]
+
 
 
