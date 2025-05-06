@@ -585,7 +585,7 @@ stats_input_slides_hypothalamus
 # Vector of all slide numbers
 slide_numbers <- sprintf("s%02d", 1:12)
 
-# Function to run the model for each slide
+# Function to run the model for each section
 run_stats <- function(slide) {
   result <- stats_cluster.animal(
     data = stats_input_slides_hypothalamus %>% filter(SlideNumber == slide),
