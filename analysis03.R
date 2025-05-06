@@ -11,12 +11,9 @@ library(MASS)
 library(readxl)
 library(emmeans)
 
-
 cluster_data <- read.csv("/Users/alexlawson/Desktop/Masters-Work/data-frames/cluster-percentage-data.csv", stringsAsFactors = FALSE)
 data_frame_final <- read.csv("/Users/alexlawson/Desktop/Masters-Work/data-frames/processed-dataframe.csv")
 stats_input_final <- cluster_data
-
-
 plot <- clusterplots(data_frame_final, "PC1", "PC2")
 plot
 View(data_frame_final)
@@ -108,6 +105,21 @@ stats_testing_females_pvn <- stats_cluster.animal(data = stats_input_final %>% f
                                                 posthoc2 = "~Treatment|Cluster", adjust = "sidak")
 stats_testing_females_pvn[[2]]
 stats_testing_females_pvn[[3]]
+
+stats_testing_males_hypo <- stats_cluster.animal(data = stats_input_final %>% filter(Sex=="M"&BrainRegion=="HYPO"),
+                                                   model = "percentage ~ Cluster*Treatment + (1|MouseID)", 
+                                                   posthoc1 = "~Treatment|Cluster", 
+                                                   posthoc2 = "~Treatment|Cluster", adjust = "sidak")
+stats_testing_males_hypo[[2]]
+stats_testing_males_hypo[[3]]
+
+
+stats_testing_females_hypo <- stats_cluster.animal(data = stats_input_final %>% filter(Sex=="F"&BrainRegion=="HYPO"),
+                                                  model = "percentage ~ Cluster*Treatment + (1|MouseID)", 
+                                                  posthoc1 = "~Treatment|Cluster", 
+                                                  posthoc2 = "~Treatment|Cluster", adjust = "sidak")
+stats_testing_females_hypo[[2]]
+stats_testing_females_hypo[[3]]
 
 stats_testing_brain_comparison_all<- stats_cluster.animal(data = stats_input_final,
                                                       model = "percentage ~ Cluster*BrainRegion*Sex + (1|MouseID)", 

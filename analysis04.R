@@ -1,3 +1,5 @@
+#Microglia - neuron stat testing (not used)
+
 library(MicrogliaMorphologyR)
 library(factoextra)
 library(ppclust)
@@ -9,7 +11,6 @@ library(lme4)
 library(lmerTest) # For p-values
 library(MASS)
 library(writexl)
-
 calculate_cluster_percentage <- function(data, cluster_var, first_var = NULL, second_var = NULL, third_var=NULL, fourth_var=NULL) {
   
   # Dynamically determine grouping variables based on user input
