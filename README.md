@@ -1,9 +1,14 @@
-Welcome to **Microglia Morphology Analalysis**!
+Welcome to **Microglia Morphology Analysis**!
 
 Included you can find Alex Lawson Data Analysis process (including raw files). 
 
-
-In [Morphoglia](./Morphoglia/) you can find all the data analysis from the morphoglia pipeline. 
+In [Morphoglia](./Morphoglia/) you can find all the data analysis from the morphoglia pipeline.
+    - Within the [Data](./Morphoglia/Data) folder you can find:
+        1. `Morphology.csv` which is the output from the Morphoglia Pipeline for the PVN. 
+        2. 'Morphology_HDBSCAN_30_0.1_150_5.csv' which is the output from the UMAP and HDBSCAN clustering on all data in the PVN. 
+        3. [UMAP_HDBSCAN](./Morphoglia/Data/UMAP_HDBSCAN) has the UMAP and HDBSCAN umaps/clustering from a couple of the trialed parameters. 
+        4. [Feature_Selection](./Morphoglia/Data/Feature_Selection) contains the output from the Random Feature Selection of Morphoglia 
+        5. [Plots](./Morphoglia/Data/Plots) contains the plots, regenerated in python to illustrate results (look at [Image Processing Scripts]      (./Image%20Processing%20Scripts/corr-plots-step-by-step.ipynb) for code to generate them. 
 
 In [Working Data Analysis](./Working%20Data%20Analysis/) you can find Alex Lawson's raw working data analysis from all the Ciernia Lab protocol. This includes both the unedited raw files as well as the final analysis/methods to produce stats used in the paper. 
 - `final-stats-process.csv` is the final process
