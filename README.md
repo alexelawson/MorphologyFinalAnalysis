@@ -5,7 +5,7 @@ Included you can find Alex Lawson Data Analysis process (including raw files).
 
 In [Morphoglia](./Morphoglia/) you can find all the data analysis from the morphoglia pipeline. 
 
-In [Working Data Analysis](./Working Data Analysis/) you can find Alex Lawson's raw working data analysis from all the Ciernia Lab protocol. This includes both the unedited raw files as well as the final analysis/methods to produce stats used in the paper. 
+In [Working Data Analysis](./Working%Data%Analysis/) you can find Alex Lawson's raw working data analysis from all the Ciernia Lab protocol. This includes both the unedited raw files as well as the final analysis/methods to produce stats used in the paper. 
 - `final-stats-process.csv` is the final process
 - `analysis01-06` are the process and includes the intitial processing of the data, creation of cluster percentages, as well as intital stats and graphing
 
