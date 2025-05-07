@@ -1,8 +1,11 @@
 Welcome to **Microglia Morphology Analysis**!
 
 Included you can find Alex Lawson Data Analysis process (including raw files). 
+
 **In [Morphoglia](./Morphoglia/) you can find all the data analysis from the morphoglia pipeline.**
+
 Within the [Data](./Morphoglia/Data) folder you can find:
+
 - `Morphology.csv` which is the output from the Morphoglia Pipeline for the PVN.
 - 'Morphology_HDBSCAN_30_0.1_150_5.csv' which is the output from the UMAP and HDBSCAN clustering on all data in the PVN.
 - [UMAP_HDBSCAN](./Morphoglia/Data/UMAP_HDBSCAN) has the UMAP and HDBSCAN umaps/clustering from a couple of the trialed parameters.
