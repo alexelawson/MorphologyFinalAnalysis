@@ -12,31 +12,29 @@ library(readxl)
 library(emmeans)
 
 
-data_frame_final <- read.csv("/Users/alexlawson/Desktop/Masters-Work/data-frames/processed-dataframe.csv")
+data_frame_final <- read.csv("/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/Data Files/final-dataframe.csv")
 View(data_frame_final)
-# prepare data for downstream analysis
-data_frame_final_pvn <- data_frame_final %>% filter(BrainRegion=="PVN")
-data <- data_frame_final %>% 
-  group_by(MouseID, Sex, Treatment, BrainRegion) %>% 
+data_fram_ramified_PVN <- data_frame_final%>%filter(BrainRegion=="PVN")
+
+
+clusterfeatures(data_frame_final, featurestart=11, featureend=37)
+#1 is ameboid
+#2 is rod like
+#3 is ramified 
+
+
+data_ramified_PVN_forstats <- data_fram_ramified_PVN  %>% 
+  group_by(MouseID, Sex, Treatment) %>% 
   summarise(across("Foreground.pixels":"Maximum.branch.length", ~mean(.x))) %>% 
   gather(Measure, Value, "Foreground.pixels":"Maximum.branch.length")
 
-# filter out data you want to run stats on and make sure to make any variables included in model into factors
-stats_input <- data %>% filter(BrainRegion=="PVN")
-stats_input$Treatment <- factor(stats_input$Treatment)
-stats_testing <- stats_morphologymeasures.animal(data = stats_input, 
-                                                 model = "Value ~ Treatment*Sex", type="lm",
-                                                 posthoc1 = "~Treatment", 
-                                                 posthoc2 = "~Treatment|Sex", adjust = "sidak")
-stats_testing[[1]]
-stats_testing[[2]]
-stats_testing[[3]]
-stats_testing[[5]]
 
-stats_testing <- stats_morphologymeasures.animal(data = stats_input %>% filter(Sex=="F"), 
-                                                 model = "Value ~ Treatment", type="lm",
-                                                 posthoc1 = "~Treatment", 
+data_ramified_PVN_forstats$Treatment <- factor(data_ramified_PVN_forstats$Treatment)
+data_ramified_PVN_forstats$Sex <- factor(data_ramified_PVN_forstats$Sex)
+data_ramified_PVN_forstats_output <- stats_morphologymeasures.animal(data =data_ramified_PVN_forstats, 
+                                                 model = "Value ~ Treatment*Sex", type="lm",
+                                                 posthoc1 = "~Treatment|Sex", 
                                                  posthoc2 = "~Treatment", adjust = "sidak")
-stats_testing[[1]]
-stats_testing[[2]]
-stats_testing[[3]]
+data_ramified_PVN_forstats_output[[1]]
+data_ramified_PVN_forstats_output[[2]]
+data_ramified_PVN_forstats_output[[3]]
