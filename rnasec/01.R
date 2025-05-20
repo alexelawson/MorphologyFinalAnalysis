@@ -245,35 +245,123 @@ new.cluster.ids <- c("Microglia 4", "Microglia 2", "Microglia 4", "Microglia 3",
 names(new.cluster.ids) <- levels(combined)
 combined <- RenameIdents(combined, new.cluster.ids)
 DimPlot(combined, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
-
 combined$renamed_clusters <- Idents(combined)
 table(Idents(combined)) 
 Idents(combined) <- "renamed_clusters"
+
+View(combined)
+
+keep <- paste0("Microglia ", 1:4)
+combined_clean <- subset(combined, idents = keep)
+
+control <- subset(combined_clean, subset = condition == "CON")
+cold <- subset(combined_clean, subset = condition == "COLD")
+
 # Define sex marker gene for female classification
-female_genes2 <- c("Xist")
+female_genes <- c("Xist")
 expr_threshold <- 0  # Any non-zero expression will count
-# Use normalized RNA assay for expression values
-DefaultAssay(combined) <- "RNA"
-expr_control <- LayerData(
-  object = combined,
-  assay  = "RNA",
-  layer  = "data.Control"
-)
-expr_cold <- LayerData(
-  object = combined,
-  assay  = "RNA",
-  layer  = "data.COLD"
-)
 
+# Re-pull your expression matrices (so you haven’t overwritten them)
+DefaultAssay(control) <- "RNA"
+expr_control <- GetAssayData(control, assay="RNA", slot="data")
 
+DefaultAssay(cold) <- "RNA"
+expr_cold    <- GetAssayData(cold,   assay="RNA", slot="data")
 
 # Identify female cells (any cell with non-zero expression of Xist)
-female_cells2 <- colnames(expr)[colSums(expr[female_genes2, , drop = FALSE] > expr_threshold) > 0]
+female_cells_control <- colnames(expr_control)[colSums(expr_control[female_genes, , drop = FALSE] > expr_threshold) > 0]
 
 # Identify male cells (remaining cells that do not meet the female criteria)
-male_cells2 <- setdiff(colnames(expr), female_cells2)
+male_cells_control <- setdiff(colnames(expr_control), female_cells_control)
+
+# Identify female cells (any cell with non-zero expression of Xist)
+female_cells_cold <- colnames(expr_cold)[colSums(expr_cold[female_genes, , drop = FALSE] > expr_threshold) > 0]
+
+# Identify male cells (remaining cells that do not meet the female criteria)
+male_cells_cold <- setdiff(colnames(expr_cold), female_cells_cold)
 
 # Optional: confirm number of cells
-length(female_cells2) # 43
-length(male_cells2)   # 86
+length(female_cells_control) # 269
+length(male_cells_control)   # 557
+
+# Optional: confirm number of cells
+length(female_cells_cold) # 1113
+length(male_cells_cold)   # 90
+
+
+# Subset Seurat objects for female and male cells
+female_cells_control_subset <- subset(combined_clean, cells = female_cells_control)
+male_cells_control_subset  <- subset(combined_clean, cells = male_cells_control)
+
+# Subset Seurat objects for female and male cells
+female_cells_cold_subset <- subset(combined_clean, cells = female_cells_cold)
+male_cells_cold_subset  <- subset(combined_clean, cells = male_cells_cold)
+
+# Merge the male and female subsets (keeping original names intact)
+combined_control_subset <- merge(female_cells_control_subset, y = male_cells_control_subset, add.cell.ids = c("Female", "Male"), project = "Microglia_CON")
+# Add metadata for sex
+combined_control_subset$sex <- ifelse(grepl("^Female", colnames(combined_control_subset)), "Female", "Male")
+
+# Merge the male and female subsets (keeping original names intact)
+combined_cold_subset <- merge(female_cells_cold_subset, y = male_cells_cold_subset, add.cell.ids = c("Female", "Male"), project = "Microglia_CON")
+# Add metadata for sex
+combined_cold_subset$sex <- ifelse(grepl("^Female", colnames(combined_cold_subset)), "Female", "Male")
+
+combined_all_microglia <- merge(combined_cold_subset, y = combined_control_subset, add.cell.ids = c("Female", "Male"), project = "Microglia_CON") 
+
+View(combined_all_microglia)
+
+# Normalize and scale (post-merge)
+DefaultAssay(combined_all_microglia) <- "RNA"
+combined_all_microglia <- NormalizeData(combined_all_microglia)
+combined_all_microglia <- FindVariableFeatures(combined_all_microglia)
+combined_all_microglia <- ScaleData(combined_all_microglia)
+
+combined_female <- subset(
+  combined_all_microglia,
+  subset = sex == "Female"
+)
+
+combined_male <- subset(
+  combined_all_microglia,
+  subset = sex == "Male"
+)
+
+
+# Set the identities for DE analysis
+Idents(combined_female) <- "condition"
+# JoinLayers to properly link for analysis 
+combined_female <- JoinLayers(combined_female)
+# Differential expression analysis
+deg_combined_female <- FindMarkers(
+ combined_female,
+  ident.1 = "CON",
+  ident.2 = "COLD",
+  assay = "RNA",
+  logfc.threshold = 0.25,
+  min.pct = 0.1
+)
+# View and save results
+head(deg_combined_female)
+write.csv(deg_combined_female, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/female_cold_vs_con.csv")
+
+# Set the identities for DE analysis
+Idents(combined_male) <- "condition"
+# JoinLayers to properly link for analysis 
+combined_male <- JoinLayers(combined_male)
+# Differential expression analysis
+deg_combined_male <- FindMarkers(
+  combined_male,
+  ident.1 = "CON",
+  ident.2 = "COLD",
+  assay = "RNA",
+  logfc.threshold = 0.25,
+  min.pct = 0.1
+)
+# View and save results
+head(deg_combined_male)
+write.csv(deg_combined_male, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/male_cold_vs_con.csv")
+
+
+
 
