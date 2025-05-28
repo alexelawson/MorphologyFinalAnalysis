@@ -1,0 +1,16 @@
+Selected Features,Importance
+Soma_aspect_ratio,0.07001473
+Soma_eccentricity,0.069797672
+Soma_compactness,0.068961707
+Convex_Hull_compactness,0.068626926
+Soma_circularity,0.068557894
+Cell_eccentricity,0.068127167
+Cell_convexity,0.067668448
+Convex_Hull_eccentricity,0.066963838
+Cell_aspect_ratio,0.066831862
+Sholl_max_distance,0.066479057
+Cell_perimeter,0.064885244
+Cell_circularity,0.063532156
+Soma_perimeter,0.063273009
+Cell_solidity,0.063253988
+Cell_area,0.063026302
