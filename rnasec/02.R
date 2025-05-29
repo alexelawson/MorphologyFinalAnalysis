@@ -15,8 +15,8 @@ library(enrichplot)
 set.seed(89)
 
 #setting directories
-cold_data_dir <- "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/COLD"
-con_data_dir <- "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/CON"
+cold_data_dir <- "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/COLD"
+con_data_dir <- "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/CON"
 
 # Load Control
 control_counts <- Read10X(data.dir = con_data_dir)
@@ -81,10 +81,6 @@ combined <- FindNeighbors(combined, dims=1:20)
 combined <- FindClusters(combined, resolution=0.5)
 combined <- RunUMAP(combined, dims=1:20)
 umap_combined <- DimPlot(combined, reduction="umap", group.by="seurat_clusters")
-umap_combined
-
-ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/UMAP_combined.png', umap_combined, width = 10, height = 5)
-
 
 #-------macrophage cell markers-------
 plot_macrophage_feature <- FeaturePlot(combined, features = c("Ifitm3",
@@ -97,7 +93,6 @@ plot_macrophage_feature <- FeaturePlot(combined, features = c("Ifitm3",
                                                               "Ccr2",
                                                               "Ifitm6",
                                                               "Cybb"))
-plot_macrophage_feature
 
 #ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/macrofage_features.png', plot_macrophage_feature , width = 10, height = 5)
 
@@ -113,7 +108,7 @@ plot_macrophage_vln <- VlnPlot(combined, features = c("Ifitm3",
                                                       "Cybb"))
 
 #ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/macrofage_vln.png', plot_macrophage_vln, width = 10, height = 5)
-plot_macrophage_vln
+
 #Macrophage = Cluster 10
 
 #-------microglia 1 cell markers-------
@@ -242,7 +237,6 @@ plot_prolif_feature <- FeaturePlot(combined, features = c("Pif1",
                                                           "Sox2"))
 plot_prolif_vln <- VlnPlot(combined, features = c("Pif1",
                                                   "Sox2"))
-plot_prolif_vln
 #OUTPUT CLUSTERS
 #Macrophage: Cluster 10
 #Microglia 1: Cluster 8 
@@ -344,7 +338,6 @@ combined_all_microglia <- merge(
   y = combined_control_subset,
   project    = "Microglia_ALL"
 )
-View(combined_all_microglia)
 
 # Normalize and scale (post-merge)
 DefaultAssay(combined_all_microglia) <- "RNA"
@@ -560,6 +553,5 @@ deg_combined_control <- FindMarkers(
   min.pct = 0.1
 )
 
-View(deg_combined_control)
 
 
