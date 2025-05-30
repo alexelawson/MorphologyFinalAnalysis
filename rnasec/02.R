@@ -353,7 +353,6 @@ combined_all_microglia <- JoinLayers(combined_all_microglia)
 Idents(combined_all_microglia) <- "group"
 
 View(combined_all_microglia)
-table(Idents(combined_all_microglia))
 
 # Differential expression analysis
 deg_combined_female <- FindMarkers(
@@ -362,7 +361,7 @@ deg_combined_female <- FindMarkers(
    ident.2 = "CON_Female",
    assay = "RNA",
    logfc.threshold = 0.25,
-   min.pct = 0.2 
+   min.pct = 0.1
  )
 
 # Filter upregulated genes (avg_log2FC > 0)
@@ -381,7 +380,7 @@ deg_combined_male <- FindMarkers(
   ident.2 = "CON_Male",
   assay = "RNA",
   logfc.threshold = 0.25,
-  min.pct = 0.2
+  min.pct = 0.1
 )
 
 # DEGs
@@ -430,10 +429,14 @@ down_male_top250 <- down_male %>%
 #write.csv(down_female_top500, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-female-500.csv")
 #write.csv(down_male_top500, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-male-500.csv")
 
+write.csv(up_male_top250, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-male-250.csv")
+write.csv(up_female_top250, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-female-250.csv")
+write.csv(down_female_top250, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-female-250.csv")
+write.csv(down_male_top250, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-male-250.csv")
+
 
 up_genes_male <- rownames(up_male_top250)
 down_genes_male <- rownames(down_male_top250)
-
 up_genes_female <- rownames(up_female_top250)
 down_genes_female <- rownames(down_female_top250)
 
@@ -445,9 +448,10 @@ combined_male   <- subset(combined_all_microglia, subset = sex == "Male")
 rna_data_female <- GetAssayData(combined_female, assay = "RNA", layer = "data")
 rna_data_male <- GetAssayData(combined_male, assay = "RNA", layer = "data")
 
+
 #Female filtering for GO analysis
 pct_expr_female <- rowSums(rna_data_female > 0) / ncol(rna_data_female) # Calculate percent of cells expressing each gene
-gene_universe_female <- names(pct_expr_female[pct_expr_female > 0.2]) # Filter genes expressed in >10% of cells (min.pct = 0.1)
+gene_universe_female <- names(pct_expr_female[pct_expr_female > 0.1]) 
 all_genes_to_convert_female <- unique(c(up_genes_female, down_genes_female, gene_universe_female)) # Combine all genes for conversion
 gene_conversion_female <- bitr(all_genes_to_convert_female,
                         fromType = "SYMBOL",
@@ -459,7 +463,7 @@ gene_conversion_female <- bitr(all_genes_to_convert_female,
 #different in terms of calculations -> different things 
 #Male filtering for GO analysis
 pct_expr_male <- rowSums(rna_data_male > 0) / ncol(rna_data_male) # Calculate percent of cells expressing each gene
-gene_universe_male <- names(pct_expr_male[pct_expr_male > 0.2]) # Filter genes expressed in >10% of cells (min.pct = 0.1)
+gene_universe_male <- names(pct_expr_male[pct_expr_male > 0.1]) # Filter genes expressed in >10% of cells (min.pct = 0.1)
 all_genes_to_convert_male <- unique(c(up_genes_male, down_genes_male, gene_universe_male)) # Combine all genes for conversion
 gene_conversion_male <- bitr(all_genes_to_convert_male,
                                fromType = "SYMBOL",
@@ -499,8 +503,7 @@ ego_up_female <- enrichGO(gene          = up_ensembl_female,
                    keyType       = "ENSEMBL",
                    ont           = "BP",
                    pAdjustMethod = "BH",
-                   qvalueCutoff  = 1,
-                   pvalueCutoff = 0.05,
+                   qvalueCutoff = 0.05,
                    readable      = TRUE)
 
 
@@ -532,10 +535,11 @@ ego_down_male <- enrichGO(gene          = down_ensembl_male,
                             readable      = TRUE)
 
 
-#write.csv(ego_down_female, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-female.csv")
-#write.csv(ego_up_female, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-female.csv")
-#write.csv(ego_down_male, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-male.csv")
-#write.csv(ego_up_male, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-male.csv")
+write.csv(ego_down_female, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-female.csv")
+write.csv(ego_up_female, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-female.csv")
+write.csv(ego_down_male, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-male.csv")
+write.csv(ego_up_male, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-male.csv")
+
 # Barplot
 #select genes and put cutoff. often good to run both separately and together. Run together first and then apart. universe = genes that you had some counts for 
 #
@@ -543,19 +547,8 @@ ego_down_male <- enrichGO(gene          = down_ensembl_male,
 barplot(ego_up_female, showCategory = 20, title = "Top GO BP Terms - Upregulated Female")
 barplot(ego_down_female, showCategory = 20, title = "Top GO BP Terms - Downregulated Female")
 barplot(ego_up_male, showCategory = 20, title = "Top GO BP Terms - Upregulated Male")
-barplot(ego_down_male, showCategory = 50, title = "Top GO BP Terms - Downregulated Male")
+barplot(ego_down_male, showCategory = 20, title = "Top GO BP Terms - Downregulated Male")
 
-
-
-# Differential expression analysis
-deg_combined_control <- FindMarkers(
-  combined_all_microglia,
-  ident.1 = "CON_Female",
-  ident.2 = "CON_Male",
-  assay = "RNA",
-  logfc.threshold = 0.25,
-  min.pct = 0.1
-)
 
 ego_up_female_MF <- enrichGO(gene          = up_ensembl_female,
                           universe      = universe_ensembl_female,
@@ -563,7 +556,7 @@ ego_up_female_MF <- enrichGO(gene          = up_ensembl_female,
                           keyType       = "ENSEMBL",
                           ont           = "MF",
                           pAdjustMethod = "BH",
-                          qvalueCutoff  = 0.05,   # allow q ≤ 0.2
+                          qvalueCutoff  = 0.05, 
                           readable      = TRUE)
 
 
@@ -573,7 +566,7 @@ ego_down_female_MF <- enrichGO(gene          = down_ensembl_female,
                             keyType       = "ENSEMBL",
                             ont           = "MF",
                             pAdjustMethod = "BH",
-                            qvalueCutoff  = 0.05,   # allow q ≤ 0.2
+                            qvalueCutoff  = 0.05,  
                             readable      = TRUE)
 
 ego_up_male_MF <- enrichGO(gene          = up_ensembl_male,
@@ -582,7 +575,7 @@ ego_up_male_MF <- enrichGO(gene          = up_ensembl_male,
                         keyType       = "ENSEMBL",
                         ont           = "MF",
                         pAdjustMethod = "BH",
-                        qvalueCutoff  = 0.05,   # allow q ≤ 0.2
+                        qvalueCutoff  = 0.05,  
                         readable      = TRUE)
 
 #terms that have a given number of genes 
@@ -600,7 +593,6 @@ barplot(ego_down_female_MF, showCategory = 20, title = "Top GO MF Terms - Downre
 barplot(ego_up_male_MF, showCategory = 20, title = "Top GO MF Terms - Upregulated Male")
 barplot(ego_down_male_MF, showCategory = 20, title = "Top GO MF Terms - Downregulated Male")
 
-#gsea analysis (in this case you use every gene with a score not the universe)
 
 # Set the identity class to renamed_clusters
 Idents(combined_all_microglia) <- "renamed_clusters"
