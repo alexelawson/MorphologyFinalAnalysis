@@ -362,7 +362,7 @@ deg_combined_female <- FindMarkers(
    ident.2 = "CON_Female",
    assay = "RNA",
    logfc.threshold = 0.25,
-   min.pct = 0.1
+   min.pct = 0.1 
  )
 
 # Filter upregulated genes (avg_log2FC > 0)
@@ -450,7 +450,8 @@ gene_conversion_female <- bitr(all_genes_to_convert_female,
                         OrgDb = org.Mm.eg.db) # Convert to ENSEMBL IDs
 
 
-
+#overrepresentation or gene set enrighment analysis 
+#different in terms of calculations -> different things 
 #Male filtering for GO analysis
 pct_expr_male <- rowSums(rna_data_male > 0) / ncol(rna_data_male) # Calculate percent of cells expressing each gene
 gene_universe_male <- names(pct_expr_male[pct_expr_male > 0.1]) # Filter genes expressed in >10% of cells (min.pct = 0.1)
@@ -482,7 +483,7 @@ down_ensembl_male <- gene_conversion_male %>%
   filter(SYMBOL %in% down_genes_male) %>%
   pull(ENSEMBL)
 
-universe_ensembl_male <- gene_conversion_male %>%
+universe_ensembl_male <- gene_conversion_male %>% #important bc then you are looking at the genes in your experiment 
   filter(SYMBOL %in% gene_universe_male) %>%
   pull(ENSEMBL)
 
@@ -493,8 +494,7 @@ ego_up_female <- enrichGO(gene          = up_ensembl_female,
                    keyType       = "ENSEMBL",
                    ont           = "BP",
                    pAdjustMethod = "BH",
-                   pvalueCutoff  = 0.1,   # allow raw p ≤ 0.1
-                   qvalueCutoff  = 0.2,   # allow q ≤ 0.2
+                   qvalueCutoff  = 0.05,   # allow q ≤ 0.2
                    readable      = TRUE)
 
 
@@ -504,8 +504,7 @@ ego_down_female <- enrichGO(gene          = down_ensembl_female,
                      keyType       = "ENSEMBL",
                      ont           = "BP",
                      pAdjustMethod = "BH",
-                     pvalueCutoff  = 0.1,   # allow raw p ≤ 0.1
-                     qvalueCutoff  = 0.2,   # allow q ≤ 0.2
+                     qvalueCutoff  = 0.05,   # allow q ≤ 0.2
                      readable      = TRUE)
 
 ego_up_male <- enrichGO(gene          = up_ensembl_male,
@@ -514,8 +513,7 @@ ego_up_male <- enrichGO(gene          = up_ensembl_male,
                           keyType       = "ENSEMBL",
                           ont           = "BP",
                           pAdjustMethod = "BH",
-                          pvalueCutoff  = 0.1,   # allow raw p ≤ 0.1
-                          qvalueCutoff  = 0.2,   # allow q ≤ 0.2
+                          qvalueCutoff  = 0.05,   # allow q ≤ 0.2
                           readable      = TRUE)
 
 ego_down_male <- enrichGO(gene          = down_ensembl_male,
@@ -523,8 +521,7 @@ ego_down_male <- enrichGO(gene          = down_ensembl_male,
                             OrgDb         = org.Mm.eg.db,
                             keyType       = "ENSEMBL",
                             ont           = "BP",
-                            pvalueCutoff  = 0.1,   # allow raw p ≤ 0.1
-                            qvalueCutoff  = 0.2,   # allow q ≤ 0.2
+                            qvalueCutoff  = 0.05,   # allow q ≤ 0.2
                             pAdjustMethod = "BH",
                             readable      = TRUE)
 
@@ -534,11 +531,12 @@ ego_down_male <- enrichGO(gene          = down_ensembl_male,
 #write.csv(ego_down_male, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-male.csv")
 #write.csv(ego_up_male, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-male.csv")
 # Barplot
-
+#select genes and put cutoff. often good to run both separately and together. Run together first and then apart. universe = genes that you had some counts for 
+#
 # Barplot
 barplot(ego_up_female, showCategory = 20, title = "Top GO BP Terms - Upregulated Female")
-barplot(ego_down_female, showCategory = 20, title = "Top GO BP Terms - Downregulated Male")
-barplot(ego_up_male, showCategory = 20, title = "Top GO BP Terms - Upregulated Female")
+barplot(ego_down_female, showCategory = 20, title = "Top GO BP Terms - Downregulated Female")
+barplot(ego_up_male, showCategory = 20, title = "Top GO BP Terms - Upregulated Male")
 barplot(ego_down_male, showCategory = 20, title = "Top GO BP Terms - Downregulated Male")
 
 
@@ -552,6 +550,214 @@ deg_combined_control <- FindMarkers(
   logfc.threshold = 0.25,
   min.pct = 0.1
 )
+
+ego_up_female_MF <- enrichGO(gene          = up_ensembl_female,
+                          universe      = universe_ensembl_female,
+                          OrgDb         = org.Mm.eg.db,
+                          keyType       = "ENSEMBL",
+                          ont           = "MF",
+                          pAdjustMethod = "BH",
+                          qvalueCutoff  = 0.05,   # allow q ≤ 0.2
+                          readable      = TRUE)
+
+
+ego_down_female_MF <- enrichGO(gene          = down_ensembl_female,
+                            universe      = universe_ensembl_female,
+                            OrgDb         = org.Mm.eg.db,
+                            keyType       = "ENSEMBL",
+                            ont           = "MF",
+                            pAdjustMethod = "BH",
+                            qvalueCutoff  = 0.05,   # allow q ≤ 0.2
+                            readable      = TRUE)
+
+ego_up_male_MF <- enrichGO(gene          = up_ensembl_male,
+                        universe      = universe_ensembl_male,
+                        OrgDb         = org.Mm.eg.db,
+                        keyType       = "ENSEMBL",
+                        ont           = "MF",
+                        pAdjustMethod = "BH",
+                        qvalueCutoff  = 0.05,   # allow q ≤ 0.2
+                        readable      = TRUE)
+
+#terms that have a given number of genes 
+ego_down_male_MF <- enrichGO(gene          = down_ensembl_male,
+                          universe      = universe_ensembl_male,
+                          OrgDb         = org.Mm.eg.db,
+                          keyType       = "ENSEMBL",
+                          ont           = "MF",
+                          qvalueCutoff  = 0.05,   
+                          pAdjustMethod = "BH",
+                          readable      = TRUE)
+
+barplot(ego_up_female_MF, showCategory = 20, title = "Top GO MF Terms - Upregulated Female")
+barplot(ego_down_female_MF, showCategory = 20, title = "Top GO MF Terms - Downregulated Female")
+barplot(ego_up_male_MF, showCategory = 20, title = "Top GO MF Terms - Upregulated Male")
+barplot(ego_down_male_MF, showCategory = 20, title = "Top GO MF Terms - Downregulated Male")
+
+#gsea analysis (in this case you use every gene with a score not the universe)
+
+# Set the identity class to renamed_clusters
+Idents(combined_all_microglia) <- "renamed_clusters"
+
+# Subset only cells from cluster 2
+cluster2_microglia <- subset(combined_all_microglia, idents = "Microglia 2")
+Idents(cluster2_microglia) <- "group"
+
+# Differential expression analysis
+deg_combined_female_2 <- FindMarkers(
+  cluster2_microglia,
+  ident.1 = "COLD_Female",
+  ident.2 = "CON_Female",
+  assay = "RNA",
+  logfc.threshold = 0.25,
+  min.pct = 0.2
+)
+
+# Filter upregulated genes (avg_log2FC > 0)
+up_female_2 <- deg_combined_female_2[deg_combined_female_2$avg_log2FC > 0.2,]
+# Filter downregulated genes (avg_log2FC < 0)
+down_female_2 <- deg_combined_female_2[deg_combined_female_2$avg_log2FC < 0.2,]
+
+cat("Female — Upregulated:", nrow(up_female_2), "\n")
+cat("Female — Downregulated:", nrow(down_female_2), "\n")
+
+
+# Differential expression analysis
+deg_combined_male_2 <- FindMarkers(
+  cluster2_microglia,
+  ident.1 = "COLD_Male",
+  ident.2 = "CON_Male",
+  assay = "RNA",
+  logfc.threshold = 0.25,
+  min.pct = 0.2
+)
+
+# DEGs
+# Overepresentation
+# how many degs you use impacts
+
+# Filter upregulated genes (avg_log2FC > 0)
+up_male_2 <- deg_combined_male_2[deg_combined_male_2$avg_log2FC > 0.2,]
+
+# Filter downregulated genes (avg_log2FC < 0)
+down_male_2 <- deg_combined_male_2[deg_combined_male_2$avg_log2FC < 0.2,]
+
+
+cat("Male — Upregulated:", nrow(up_male_2), "\n")
+cat("Male — Downregulated:", nrow(down_male_2), "\n")
+
+# Save top 500 up-/downregulated DEGs for males and females in cluster 2
+up_male_top500_2 <- up_male_2 %>%
+  arrange(desc(avg_log2FC)) %>%
+  head(500)
+
+up_female_top500_2 <- up_female_2 %>%
+  arrange(desc(avg_log2FC)) %>%
+  head(500)
+
+down_female_top500_2 <- down_female_2 %>%
+  arrange(avg_log2FC) %>%
+  head(500)
+
+down_male_top500_2 <- down_male_2 %>%
+  arrange(avg_log2FC) %>%
+  head(500)
+
+# (optional) write out
+# write.csv(up_male_top500_2, "/…/upregulated-male-500.csv")
+# write.csv(up_female_top500_2, "/…/upregulated-female-500.csv")
+# write.csv(down_female_top500_2, "/…/downregulated-female-500.csv")
+# write.csv(down_male_top500_2, "/…/downregulated-male-500.csv")
+
+# Gene name vectors
+up_genes_male_2   <- rownames(up_male_top500_2)
+down_genes_male_2 <- rownames(down_male_top500_2)
+up_genes_female_2   <- rownames(up_female_top500_2)
+down_genes_female_2 <- rownames(down_female_top500_2)
+
+# Subset the cluster-2 Seurat object by sex
+combined_female_2 <- subset(combined_all_microglia, subset = sex == "Female")
+combined_male_2   <- subset(combined_all_microglia, subset = sex == "Male")
+
+# Extract RNA assay data
+rna_data_female_2 <- GetAssayData(combined_female_2, assay = "RNA", layer = "data")
+rna_data_male_2   <- GetAssayData(combined_male_2,   assay = "RNA", layer = "data")
+
+# Female filtering for GO
+pct_expr_female_2        <- rowSums(rna_data_female_2 > 0) / ncol(rna_data_female_2)
+gene_universe_female_2   <- names(pct_expr_female_2[pct_expr_female_2 > 0.1])
+all_genes_to_convert_female_2 <- unique(c(up_genes_female_2, down_genes_female_2, gene_universe_female_2))
+gene_conversion_female_2 <- bitr(all_genes_to_convert_female_2,
+                                 fromType = "SYMBOL",
+                                 toType   = "ENSEMBL",
+                                 OrgDb    = org.Mm.eg.db)
+
+# Male filtering for GO
+pct_expr_male_2        <- rowSums(rna_data_male_2 > 0) / ncol(rna_data_male_2)
+gene_universe_male_2   <- names(pct_expr_male_2[pct_expr_male_2 > 0.1])
+all_genes_to_convert_male_2 <- unique(c(up_genes_male_2, down_genes_male_2, gene_universe_male_2))
+gene_conversion_male_2 <- bitr(all_genes_to_convert_male_2,
+                               fromType = "SYMBOL",
+                               toType   = "ENSEMBL",
+                               OrgDb    = org.Mm.eg.db)
+
+# Match to ENSEMBL IDs
+up_ensembl_female_2   <- gene_conversion_female_2 %>% filter(SYMBOL %in% up_genes_female_2)   %>% pull(ENSEMBL)
+down_ensembl_female_2 <- gene_conversion_female_2 %>% filter(SYMBOL %in% down_genes_female_2) %>% pull(ENSEMBL)
+universe_ensembl_female_2 <- gene_conversion_female_2 %>% filter(SYMBOL %in% gene_universe_female_2) %>% pull(ENSEMBL)
+
+up_ensembl_male_2     <- gene_conversion_male_2 %>% filter(SYMBOL %in% up_genes_male_2)     %>% pull(ENSEMBL)
+down_ensembl_male_2   <- gene_conversion_male_2 %>% filter(SYMBOL %in% down_genes_male_2)   %>% pull(ENSEMBL)
+universe_ensembl_male_2   <- gene_conversion_male_2 %>% filter(SYMBOL %in% gene_universe_male_2)   %>% pull(ENSEMBL)
+
+# GO enrichment
+ego_up_female_2 <- enrichGO(gene          = up_ensembl_female_2,
+                            universe      = universe_ensembl_female_2,
+                            OrgDb         = org.Mm.eg.db,
+                            keyType       = "ENSEMBL",
+                            ont           = "BP",
+                            pAdjustMethod = "BH",
+                            qvalueCutoff  = 0.05,
+                            readable      = TRUE)
+
+ego_down_female_2 <- enrichGO(gene          = down_ensembl_female_2,
+                              universe      = universe_ensembl_female_2,
+                              OrgDb         = org.Mm.eg.db,
+                              keyType       = "ENSEMBL",
+                              ont           = "BP",
+                              pAdjustMethod = "BH",
+                              qvalueCutoff  = 0.05,
+                              readable      = TRUE)
+
+ego_up_male_2 <- enrichGO(gene          = up_ensembl_male_2,
+                          universe      = universe_ensembl_male_2,
+                          OrgDb         = org.Mm.eg.db,
+                          keyType       = "ENSEMBL",
+                          ont           = "BP",
+                          pAdjustMethod = "BH",
+                          qvalueCutoff  = 0.05,
+                          readable      = TRUE)
+
+ego_down_male_2 <- enrichGO(gene          = down_ensembl_male_2,
+                            universe      = universe_ensembl_male_2,
+                            OrgDb         = org.Mm.eg.db,
+                            keyType       = "ENSEMBL",
+                            ont           = "BP",
+                            pAdjustMethod = "BH",
+                            qvalueCutoff  = 0.05,
+                            readable      = TRUE)
+
+# Barplots
+barplot(ego_up_female_2,   showCategory = 20, title = "Top GO BP Terms - Upregulated Female (Cluster 2)")
+barplot(ego_down_female_2, showCategory = 20, title = "Top GO BP Terms - Downregulated Female (Cluster 2)")
+barplot(ego_up_male_2,     showCategory = 20, title = "Top GO BP Terms - Upregulated Male (Cluster 2)")
+barplot(ego_down_male_2,   showCategory = 20, title = "Top GO BP Terms - Downregulated Male (Cluster 2)")
+
+
+
+
+
+
 
 
 
