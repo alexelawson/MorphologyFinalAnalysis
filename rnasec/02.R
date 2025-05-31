@@ -25,7 +25,7 @@ cold_counts <- Read10X(data.dir = cold_data_dir)
 
 #creating seurat objects
 control <- CreateSeuratObject(counts = control_counts, project = "Control", min.cells = 3, min.features = 200)
-cold <- CreateSeuratObject(counts = cold_counts, project = "COLD", min.cells = 3, min.features = 200)
+cold <- CreateSeuratObject(counts = cold_counts, project = "Cold", min.cells = 3, min.features = 200)
 
 #filtering cells
 control[["percent.mt"]] <- PercentageFeatureSet(control, pattern = "^mt-")
@@ -361,7 +361,7 @@ deg_combined_female <- FindMarkers(
    ident.2 = "CON_Female",
    assay = "RNA",
    logfc.threshold = 0.25,
-   min.pct = 0.1
+   min.pct = 0.2
  )
 
 # Filter upregulated genes (avg_log2FC > 0)
@@ -380,7 +380,7 @@ deg_combined_male <- FindMarkers(
   ident.2 = "CON_Male",
   assay = "RNA",
   logfc.threshold = 0.25,
-  min.pct = 0.1
+  min.pct = 0.2
 )
 
 # DEGs
@@ -535,10 +535,10 @@ ego_down_male <- enrichGO(gene          = down_ensembl_male,
                             readable      = TRUE)
 
 
-write.csv(ego_down_female, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-female.csv")
-write.csv(ego_up_female, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-female.csv")
-write.csv(ego_down_male, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-male.csv")
-write.csv(ego_up_male, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-male.csv")
+#write.csv(ego_down_female, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-female.csv")
+#write.csv(ego_up_female, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-female.csv")
+#write.csv(ego_down_male, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-male.csv")
+#write.csv(ego_up_male, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-male.csv")
 
 # Barplot
 #select genes and put cutoff. often good to run both separately and together. Run together first and then apart. universe = genes that you had some counts for 
