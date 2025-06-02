@@ -69,7 +69,7 @@ function imageConversion(img_name){
 	run("Close-");
 	//replaces a bright or dark outlier pixel by the median of the pixels in the surrounding area	//area is set as a radius of 2, threshold set to define an outlier as anything >50% different
 	run("Remove Outliers...", "radius=2 threshold=50 which=Bright");
-	//Removes any cells below 600pix area using the white cell mask we created earlier
+	//Removes any cells below 600pix area using the white cell mask we created earlier (you can modify this if needed)
 	run("Analyze Particles...", "size=600-Infinity pixel show=[Masks]");
 	run("Invert LUTs");
 	selectWindow("C2-"+img_namenoext+"-1.tif");
