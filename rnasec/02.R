@@ -15,8 +15,8 @@ library(enrichplot)
 set.seed(89)
 
 #setting directories
-cold_data_dir <- "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/COLD"
-con_data_dir <- "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/CON"
+cold_data_dir <- "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/COLD"
+con_data_dir <- "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/CON"
 
 # Load Control
 control_counts <- Read10X(data.dir = con_data_dir)
@@ -361,14 +361,14 @@ deg_combined_female <- FindMarkers(
    ident.2 = "CON_Female",
    assay = "RNA",
    logfc.threshold = 0.25,
-   min.pct = 0.2
+   min.pct = 0.1
  )
 
 # Filter upregulated genes (avg_log2FC > 0)
-up_female <- deg_combined_female[deg_combined_female$avg_log2FC > 0,]
-# Filter downregulated genes (avg_log2FC < 0)
-down_female <- deg_combined_female[deg_combined_female$avg_log2FC < 0,]
+up_female <- deg_combined_female[deg_combined_female$avg_log2FC > 0 & deg_combined_female$p_val_adj < 0.05,]
 
+# Filter downregulated genes (avg_log2FC < 0)
+down_female <- deg_combined_female[deg_combined_female$avg_log2FC < 0 & deg_combined_female$p_val_adj < 0.05,]
 cat("Female — Upregulated:", nrow(up_female), "\n")
 cat("Female — Downregulated:", nrow(down_female), "\n")
 
@@ -380,18 +380,20 @@ deg_combined_male <- FindMarkers(
   ident.2 = "CON_Male",
   assay = "RNA",
   logfc.threshold = 0.25,
-  min.pct = 0.2
+  min.pct = 0.1
 )
 
 # DEGs
 # Overepresentation
 # how many degs you use impacts
 
+
+
 # Filter upregulated genes (avg_log2FC > 0)
-up_male <- deg_combined_male[deg_combined_male$avg_log2FC > 0,]
+up_male <- deg_combined_male[deg_combined_male$avg_log2FC > 0 & deg_combined_male$p_val_adj < 0.05,]
 
 # Filter downregulated genes (avg_log2FC < 0)
-down_male <- deg_combined_male[deg_combined_male$avg_log2FC < 0,]
+down_male <- deg_combined_male[deg_combined_male$avg_log2FC < 0 & deg_combined_male$p_val_adj < 0.05,]
 
 
 cat("Male — Upregulated:", nrow(up_male), "\n")
@@ -402,43 +404,30 @@ cat("Male — Downregulated:", nrow(down_male), "\n")
 #write.csv(up_female, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-female.csv")
 #write.csv(down_female, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-female.csv")
 
-# Save top 500 upregulated and downregulated DEGs for males and females (positive log2FC)
-up_male_top250 <- up_male %>%
-  arrange(desc(avg_log2FC)) %>%
-  filter(p_val < 0.05) %>%
-  head(250)
+# Save top upregulated and downregulated DEGs for males and females (positive log2FC)
+up_male_all <- up_male %>%
+  arrange(desc(avg_log2FC))
 
-up_female_top250 <- up_female %>%
-  arrange(desc(avg_log2FC)) %>%
-  filter(p_val < 0.05) %>%
-  head(250)
+up_female_all <- up_female %>%
+  arrange(desc(avg_log2FC))
 
+down_female_all <- down_female %>%
+  arrange(avg_log2FC)
 
-down_female_top250 <- down_female %>%
-  arrange(avg_log2FC) %>%
-  filter(p_val < 0.05) %>%
-  head(250)
+down_male_all<- down_male %>%
+  arrange(avg_log2FC)
 
-down_male_top250 <- down_male %>%
-  arrange(avg_log2FC) %>%
-  filter(p_val < 0.05) %>%
-  head(250)
+View(down_male_all)
 
-#write.csv(up_male_top500, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-male-500.csv")
-#write.csv(up_female_top500, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-female-500.csv")
-#write.csv(down_female_top500, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-female-500.csv")
-#write.csv(down_male_top500, "/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-male-500.csv")
+#write.csv(up_male_all, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-male-pvaladjust.csv")
+#write.csv(up_female_all, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-female--pvaladjust.csv")
+#write.csv(down_female_all, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-female--pvaladjust.csv")
+#write.csv(down_male_all, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-male--pvaladjust.csv")
 
-write.csv(up_male_top250, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-male-250.csv")
-write.csv(up_female_top250, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-female-250.csv")
-write.csv(down_female_top250, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-female-250.csv")
-write.csv(down_male_top250, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/downregulated-male-250.csv")
-
-
-up_genes_male <- rownames(up_male_top250)
-down_genes_male <- rownames(down_male_top250)
-up_genes_female <- rownames(up_female_top250)
-down_genes_female <- rownames(down_female_top250)
+up_genes_male <- rownames(up_male_all)
+down_genes_male <- rownames(down_male_all)
+up_genes_female <- rownames(up_female_all)
+down_genes_female <- rownames(down_female_all)
 
 # Subset final merged object into female and male Seurat objects
 combined_female <- subset(combined_all_microglia, subset = sex == "Female")
@@ -496,7 +485,6 @@ universe_ensembl_male <- gene_conversion_male %>% #important bc then you are loo
   filter(SYMBOL %in% gene_universe_male) %>%
   pull(ENSEMBL)
 
-View(ego_up_female)
 ego_up_female <- enrichGO(gene          = up_ensembl_female,
                    universe      = universe_ensembl_female,
                    OrgDb         = org.Mm.eg.db,
@@ -535,20 +523,23 @@ ego_down_male <- enrichGO(gene          = down_ensembl_male,
                             readable      = TRUE)
 
 
-#write.csv(ego_down_female, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-female.csv")
-#write.csv(ego_up_female, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-female.csv")
-#write.csv(ego_down_male, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-male.csv")
-#write.csv(ego_up_male, "/Users/alexlawson/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-male.csv")
+#write.csv(ego_down_female, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-female.csv")
+#write.csv(ego_up_female, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-female.csv")
+#write.csv(ego_down_male, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-male.csv")
+#write.csv(ego_up_male, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-male.csv")
 
 # Barplot
 #select genes and put cutoff. often good to run both separately and together. Run together first and then apart. universe = genes that you had some counts for 
-#
+
+
+
 # Barplot
 barplot(ego_up_female, showCategory = 20, title = "Top GO BP Terms - Upregulated Female")
 barplot(ego_down_female, showCategory = 20, title = "Top GO BP Terms - Downregulated Female")
 barplot(ego_up_male, showCategory = 20, title = "Top GO BP Terms - Upregulated Male")
 barplot(ego_down_male, showCategory = 20, title = "Top GO BP Terms - Downregulated Male")
 
+#p-adjust <0.05 -> Actually real significantly changes
 
 ego_up_female_MF <- enrichGO(gene          = up_ensembl_female,
                           universe      = universe_ensembl_female,
@@ -608,7 +599,7 @@ deg_combined_female_2 <- FindMarkers(
   ident.2 = "CON_Female",
   assay = "RNA",
   logfc.threshold = 0.25,
-  min.pct = 0.2
+  min.pct = 0.2 #10%
 )
 
 # Filter upregulated genes (avg_log2FC > 0)
@@ -635,7 +626,7 @@ deg_combined_male_2 <- FindMarkers(
 # how many degs you use impacts
 
 # Filter upregulated genes (avg_log2FC > 0)
-up_male_2 <- deg_combined_male_2[deg_combined_male_2$avg_log2FC > 0.2,]
+up_male_2 <- deg_combined_male_2[deg_combined_male_2$avg_log2FC > 0.2 & deg_microglia2_sex2$p_val_adj < 0.05,]
 
 # Filter downregulated genes (avg_log2FC < 0)
 down_male_2 <- deg_combined_male_2[deg_combined_male_2$avg_log2FC < 0.2,]

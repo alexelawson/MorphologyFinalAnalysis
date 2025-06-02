@@ -61,10 +61,12 @@ function imageConversion(img_name){
 	//threshold set to retain the most possible microglia, without adding detail where there is none
 	//autothresholds could also be used, but as we are manually editing the data, we wanted to include
 	//rather than exclude sections
-	setThreshold(78, 255);	
+	setThreshold(50, 255);	
 	run("Despeckle");
 	setOption("BlackBackground", true);
 	run("Convert to Mask", "method=Default background=Dark dark");
+	// this function connects two dark pixels if they are separated by up to 2 pixels
+	run("Close-");
 	//replaces a bright or dark outlier pixel by the median of the pixels in the surrounding area	//area is set as a radius of 2, threshold set to define an outlier as anything >50% different
 	run("Remove Outliers...", "radius=2 threshold=50 which=Bright");
 	//Removes any cells below 600pix area using the white cell mask we created earlier
