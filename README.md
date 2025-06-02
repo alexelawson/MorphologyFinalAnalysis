@@ -24,4 +24,6 @@ This includes both a data frame with the raw individual feature values, cluster,
 
 **In [Image Processing Scripts](./Image%20Processing%20Scripts/) you can find the scripts used in fiji, python, and R to process images as well as create some of the output graphs for both the Ciernia Lab and Morphoglia analysis.**
 
+The file `Edited-Binary-Conversion` is the script that was used to take the RGB images and threshold them. This was adapted Directly from the Ciernia Lab's image processing script with a few modifications. You can adjust the threshold or use Auto/Local thresholding instead if it better suits your image. Once this is run on your original images you can manually pre process or directly plug into the Ciernia Lab's Single Cell and Skeleton pipeline. We ran the 'Close-' function again on our single cell images after pre-processing to remove any atrifacts from processing, and close any insignificant holes as these have a huge impact on the skeletonization. 
+
 
