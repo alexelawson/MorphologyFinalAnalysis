@@ -1,6 +1,6 @@
 /*
  * ImageJ Macro to take an RGB image (or folder with RGB images) and convert them to binary. 
- * Currently with a pre-set threshold: 50, 255
+ * Currently with a pre-set threshold: 50, 255 for hypo, 68/255 for pvn, 80/255 for arc
  * Created by Alex Lawson 
  */
  
@@ -60,7 +60,7 @@ function imageConversion(img_name){
 	//threshold set to retain the most possible microglia, without adding detail where there is none
 	//autothresholds could also be used, but as we are manually editing the data, we wanted to include
 	//rather than exclude sections
-	setThreshold(50, 255);	//modify as eeded and if it works for your images
+	setThreshold(68, 255);	//modify as eeded and if it works for your images
 	run("Despeckle");
 	setOption("BlackBackground", true);
 	run("Convert to Mask", "method=Default background=Dark dark");
