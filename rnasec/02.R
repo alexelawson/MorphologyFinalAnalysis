@@ -94,7 +94,7 @@ plot_macrophage_feature <- FeaturePlot(combined, features = c("Ifitm3",
                                                               "Ifitm6",
                                                               "Cybb"))
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/macrofage_features.png', plot_macrophage_feature , width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/macrofage_features.png', plot_macrophage_feature , width = 10, height = 5)
 
 plot_macrophage_vln <- VlnPlot(combined, features = c("Ifitm3",
                                                       "S100a6",
@@ -107,7 +107,7 @@ plot_macrophage_vln <- VlnPlot(combined, features = c("Ifitm3",
                                                       "Ifitm6",
                                                       "Cybb"))
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/macrofage_vln.png', plot_macrophage_vln, width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/macrofage_vln.png', plot_macrophage_vln, width = 10, height = 5)
 
 #Macrophage = Cluster 10
 
@@ -124,7 +124,7 @@ plot_cluster1_feature <- FeaturePlot(combined, features = c("Pf4",
                                                             "Blvrb",
                                                             "Fcgrt"))
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust01_features.png', plot_cluster1_feature, width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust01_features.png', plot_cluster1_feature, width = 10, height = 5)
 
 
 plot_cluster1_vln <- VlnPlot(combined, features = c("Pf4",
@@ -138,7 +138,7 @@ plot_cluster1_vln <- VlnPlot(combined, features = c("Pf4",
                                                     "Blvrb",
                                                     "Fcgrt"))
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust01_vln.png', plot_cluster1_vln, width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust01_vln.png', plot_cluster1_vln, width = 10, height = 5)
 
 #Microglia 1 - Cluster 8
 
@@ -154,7 +154,7 @@ plot_cluster2_features <- FeaturePlot(combined, features = c("Spp1",
                                                              "Mif",
                                                              "Fabp3"))
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust02_features.png', plot_cluster2_features, width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust02_features.png', plot_cluster2_features, width = 10, height = 5)
 
 plot_cluster2_vln <- VlnPlot(combined, features = c("Spp1",
                                                     "Fabp5",
@@ -167,7 +167,7 @@ plot_cluster2_vln <- VlnPlot(combined, features = c("Spp1",
                                                     "Mif",
                                                     "Fabp3"))
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust02_vln.png', plot_cluster2_vln, width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust02_vln.png', plot_cluster2_vln, width = 10, height = 5)
 #microglia 2 is cluster 1
 
 #-------microglia 3 cell markers----
@@ -182,7 +182,7 @@ plot_cluster3_features <- FeaturePlot(combined, features = c("Ube2c",
                                                              "Top2a",
                                                              "Pttg1"))
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust03_features.png', plot_cluster3_features, width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust03_features.png', plot_cluster3_features, width = 10, height = 5)
 
 
 plot_cluster_3_vln <- VlnPlot(combined, features = c("Ube2c",
@@ -196,7 +196,7 @@ plot_cluster_3_vln <- VlnPlot(combined, features = c("Ube2c",
                                                      "Top2a",
                                                      "Pttg1"))
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust03_vln.png', plot_cluster_3_vln, width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust03_vln.png', plot_cluster_3_vln, width = 10, height = 5)
 
 #cluster 3
 
@@ -212,7 +212,7 @@ plot_cluster4_feature <- FeaturePlot(combined, features = c("Crybb1",
                                                             "Tmem119",
                                                             "Sall1"))
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust04_features.png', plot_cluster4_feature, width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust04_features.png', plot_cluster4_feature, width = 10, height = 5)
 
 
 plot_cluster4_vln <- VlnPlot(combined, features = c("Crybb1",
@@ -227,7 +227,7 @@ plot_cluster4_vln <- VlnPlot(combined, features = c("Crybb1",
                                                     "Sall1"))
 
 
-#ggsave(filename = '/Users/alexlawson/Documents/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust04_vln.png', plot_cluster4_vln, width = 10, height = 5)
+#ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust04_vln.png', plot_cluster4_vln, width = 10, height = 5)
 
 #cluster 5, 2, 0, 7
 
@@ -269,10 +269,10 @@ expr_threshold <- 0  # Any non-zero expression will count
 
 # Re-pull your expression matrices (so you haven’t overwritten them)
 DefaultAssay(control) <- "RNA"
-expr_control <- GetAssayData(control, assay="RNA", layer="data")
+expr_control <- GetAssayData(control, assay="RNA", slot="data")
 
 DefaultAssay(cold) <- "RNA"
-expr_cold <- GetAssayData(cold,   assay="RNA", layer="data")
+expr_cold <- GetAssayData(cold,   assay="RNA", slot="data")
 
 # Identify female cells (any cell with non-zero expression of Xist)
 female_cells_control <- colnames(expr_control)[colSums(expr_control[female_genes, , drop = FALSE] > expr_threshold) > 0]
@@ -352,7 +352,6 @@ combined_all_microglia <- JoinLayers(combined_all_microglia)
 
 Idents(combined_all_microglia) <- "group"
 
-View(combined_all_microglia)
 
 # Differential expression analysis
 deg_combined_female <- FindMarkers(
@@ -364,14 +363,18 @@ deg_combined_female <- FindMarkers(
    min.pct = 0.1
  )
 
+
+
 # Filter upregulated genes (avg_log2FC > 0)
 up_female <- deg_combined_female[deg_combined_female$avg_log2FC > 0 & deg_combined_female$p_val_adj < 0.05,]
 
 # Filter downregulated genes (avg_log2FC < 0)
 down_female <- deg_combined_female[deg_combined_female$avg_log2FC < 0 & deg_combined_female$p_val_adj < 0.05,]
+
+all_female <- deg_combined_female[deg_combined_female$p_val_adj < 0.05,]
+
 cat("Female — Upregulated:", nrow(up_female), "\n")
 cat("Female — Downregulated:", nrow(down_female), "\n")
-
 
 # Differential expression analysis
 deg_combined_male <- FindMarkers(
@@ -395,6 +398,8 @@ up_male <- deg_combined_male[deg_combined_male$avg_log2FC > 0 & deg_combined_mal
 # Filter downregulated genes (avg_log2FC < 0)
 down_male <- deg_combined_male[deg_combined_male$avg_log2FC < 0 & deg_combined_male$p_val_adj < 0.05,]
 
+all_male <- deg_combined_male[deg_combined_male$p_val_adj < 0.05,]
+
 
 cat("Male — Upregulated:", nrow(up_male), "\n")
 cat("Male — Downregulated:", nrow(down_male), "\n")
@@ -408,6 +413,7 @@ cat("Male — Downregulated:", nrow(down_male), "\n")
 up_male_all <- up_male %>%
   arrange(desc(avg_log2FC))
 
+
 up_female_all <- up_female %>%
   arrange(desc(avg_log2FC))
 
@@ -417,7 +423,7 @@ down_female_all <- down_female %>%
 down_male_all<- down_male %>%
   arrange(avg_log2FC)
 
-View(down_male_all)
+
 
 #write.csv(up_male_all, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-male-pvaladjust.csv")
 #write.csv(up_female_all, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/upregulated-female--pvaladjust.csv")
@@ -428,6 +434,8 @@ up_genes_male <- rownames(up_male_all)
 down_genes_male <- rownames(down_male_all)
 up_genes_female <- rownames(up_female_all)
 down_genes_female <- rownames(down_female_all)
+all_genes_female <- rownames(all_female)
+all_genes_male <- rownames(all_male)
 
 # Subset final merged object into female and male Seurat objects
 combined_female <- subset(combined_all_microglia, subset = sex == "Female")
@@ -468,6 +476,10 @@ down_ensembl_female <- gene_conversion_female %>%
   filter(SYMBOL %in% down_genes_female) %>%
   pull(ENSEMBL)
 
+all_ensembl_female <- gene_conversion_female %>% 
+  filter(SYMBOL %in% all_genes_female) %>%
+  pull(ENSEMBL)
+
 universe_ensembl_female <- gene_conversion_female %>%
   filter(SYMBOL %in% gene_universe_female) %>%
   pull(ENSEMBL)
@@ -479,6 +491,10 @@ up_ensembl_male <- gene_conversion_male %>%
 
 down_ensembl_male <- gene_conversion_male %>%
   filter(SYMBOL %in% down_genes_male) %>%
+  pull(ENSEMBL)
+
+all_ensembl_male <- gene_conversion_male %>% 
+  filter(SYMBOL %in% all_genes_male) %>%
   pull(ENSEMBL)
 
 universe_ensembl_male <- gene_conversion_male %>% #important bc then you are looking at the genes in your experiment 
@@ -504,6 +520,15 @@ ego_down_female <- enrichGO(gene          = down_ensembl_female,
                      qvalueCutoff  = 0.05,   
                      readable      = TRUE)
 
+ego_all_female <- enrichGO(gene          = all_ensembl_female,
+                            universe      = universe_ensembl_female,
+                            OrgDb         = org.Mm.eg.db,
+                            keyType       = "ENSEMBL",
+                            ont           = "BP",
+                            pAdjustMethod = "BH",
+                            qvalueCutoff  = 0.05,   
+                            readable      = TRUE)
+
 ego_up_male <- enrichGO(gene          = up_ensembl_male,
                           universe      = universe_ensembl_male,
                           OrgDb         = org.Mm.eg.db,
@@ -523,98 +548,205 @@ ego_down_male <- enrichGO(gene          = down_ensembl_male,
                             readable      = TRUE)
 
 
+ego_all_male <- enrichGO(gene          = all_ensembl_male,
+                          universe      = universe_ensembl_male,
+                          OrgDb         = org.Mm.eg.db,
+                          keyType       = "ENSEMBL",
+                          ont           = "BP",
+                          qvalueCutoff  = 0.05,   
+                          pAdjustMethod = "BH",
+                          readable      = TRUE)
 
-#write.csv(ego_down_female, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-female.csv")
-#write.csv(ego_up_female, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-female.csv")
-#write.csv(ego_down_male, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-male.csv")
-#write.csv(ego_up_male, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-male.csv")
-
-# Barplot
-#select genes and put cutoff. often good to run both separately and together. Run together first and then apart. universe = genes that you had some counts for 
 
 
-#enrichment analysis 
+barplot(ego_up_female,
+        showCategory = 20, 
+        title        = "Top 20 Upregulated GO Biological Processes in Females",
+        font.size    = 12)
 
-library(dplyr)
-library(clusterProfiler)
-library(org.Mm.eg.db)
-library(tibble)
+barplot(ego_up_male,
+        showCategory = 20, 
+        title        = "Top 20 Upregulated GO Biological Processes in Males",
+        font.size    = 12)
 
-pct_expr_female <- rowSums(rna_data_female > 0) / ncol(rna_data_female)
-gene_universe_female <- names(pct_expr_female)[ pct_expr_female > 0.1 ] 
-#changing the row column to actually have a header (symbol)
-deg_combined_female_sym <- deg_combined_female %>%
-  rownames_to_column(var = "SYMBOL")
-female_DE_filtered <- deg_combined_female_sym %>%
-  filter(SYMBOL %in% gene_universe_female) 
+barplot(ego_down_male,
+        showCategory = 20, 
+        title        = "Downregulated GO Biological Processes in Males",
+        font.size    = 12)
 
-gene_conversion_female <- bitr(
-  female_DE_filtered$SYMBOL,
-  fromType = "SYMBOL",
-  toType   = "ENSEMBL",
-  OrgDb    = org.Mm.eg.db
+barplot(ego_down_female,
+        showCategory = 20, 
+        title        = "Top 20 Downregulated GO Biological Processes in Females",
+        font.size    = 12)
+
+
+#write.csv(ego_down_female@result %>% filter(ego_down_female@result$p.adjust<0.05), "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-female-sig.csv")
+#write.csv(ego_up_female@result %>% filter(ego_up_female@result$p.adjust<0.05), "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-female-sig.csv")
+#write.csv(ego_down_male@result %>% filter(ego_down_male@result$p.adjust<0.05), "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOdownregulated-male-sig.csv")
+#write.csv(ego_up_male@result %>% filter(ego_up_male@result$p.adjust<0.05), "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/GOupregulated-male-sig.csv")
+
+# DEG Summaries
+
+
+deg_combined_female_pvalsig <- deg_combined_female %>% filter(deg_combined_female$p_val<0.05)
+deg_combined_male_pvalsig <- deg_combined_male %>% filter(deg_combined_male$p_val<0.05)
+deg_combined_female_padjustsig <- deg_combined_female %>% filter(deg_combined_female$p_val_adj<0.05)
+deg_combined_male_padjustsig <- deg_combined_male %>% filter(deg_combined_male$p_val_adj<0.05)
+
+
+#write.csv(deg_combined_female_pvalsig, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/For-Jessica-DEGS/female-DEG-pvalue-significant.csv")
+#write.csv(deg_combined_female_padjustsig, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/For-Jessica-DEGS/female-DEG-pvalueADJUST-significant.csv")
+#write.csv(deg_combined_male_pvalsig, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/For-Jessica-DEGS/male-DEG-pvalue-significant.csv")
+#write.csv(deg_combined_male_padjustsig, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/For-Jessica-DEGS/male-DEG-pvalueADJUST-significant.csv")
+
+
+# 1) common genes (padj < 0.05 in both sexes)
+common_padjustsig_genes <- intersect(
+  rownames(deg_combined_male_padjustsig),
+  rownames(deg_combined_female_padjustsig)
 )
 
-female_DE_annotated <- female_DE_filtered %>%
-  inner_join(gene_conversion_female, by = "SYMBOL") %>%
-  select(ENSEMBL, avg_log2FC)
-
-geneList_female <- female_DE_annotated$avg_log2FC
-names(geneList_female) <- female_DE_annotated$ENSEMBL
-geneList_female <- geneList_female[ !is.na(geneList_female) ]
-geneList_female <- sort(geneList_female, decreasing = TRUE)
-
-gse_results_female <- gseGO(
-  geneList     = geneList_female,
-  OrgDb        = org.Mm.eg.db,
-  ont          = "BP",
-  keyType      = "ENSEMBL",
-  pvalueCutoff = 0.05,
-  verbose      = TRUE
-)
-
-#males
-pct_expr_male <- rowSums(rna_data_male > 0) / ncol(rna_data_male)
-gene_universe_male <- names(pct_expr_male)[ pct_expr_male > 0.1 ] 
-deg_combined_male_sym <- deg_combined_male %>%
-  rownames_to_column(var = "SYMBOL")
-male_DE_filtered <- deg_combined_male_sym %>%
-  filter(SYMBOL %in% gene_universe_male) 
-
-gene_conversion_male <- bitr(
-  male_DE_filtered$SYMBOL,
-  fromType = "SYMBOL",
-  toType   = "ENSEMBL",
-  OrgDb    = org.Mm.eg.db
-)
-male_DE_annotated <- male_DE_filtered %>%
-  inner_join(gene_conversion_male, by = "SYMBOL") %>%
-  select(ENSEMBL, avg_log2FC)
-
-geneList_male <- male_DE_annotated$avg_log2FC
-names(geneList_male) <- male_DE_annotated$ENSEMBL
-geneList_male <- geneList_male[ !is.na(geneList_male) ]
-geneList_male <- sort(geneList_male, decreasing = TRUE)
-
-gse_results_male <- gseGO(
-  geneList     = geneList_male,
-  OrgDb        = org.Mm.eg.db,
-  ont          = "BP",
-  keyType      = "ENSEMBL",
-  pvalueCutoff = 0.05,
-  verbose      = TRUE
+# 2) common genes (p < 0.05 in both sexes)
+common_pvalsig_genes <- intersect(
+  rownames(deg_combined_male_pvalsig),
+  rownames(deg_combined_female_pvalsig)
 )
 
 
-# Ridgeplot of top 10 – shows distribution of enrichment scores
-ridgeplot(
-  gse_results_male,
-  showCategory = 20,
-)
+library(EnhancedVolcano)
+
+EnhancedVolcano(
+  deg_combined_male,
+  lab       = rownames(deg_combined_male),
+  x         = "avg_log2FC",
+  y         = "p_val_adj",
+  pCutoff   = 0.05,
+  FCcutoff  = 1,              # |log2FC| ≥ 1
+  pointSize = 1.5,
+  labSize   = 3.0,
+  title     = "Male DE (padj < 0.05)")
+
+EnhancedVolcano(
+  deg_combined_female,
+  lab       = rownames(deg_combined_female),
+  x         = "avg_log2FC",
+  y         = "p_val_adj",
+  pCutoff   = 0.05,
+  FCcutoff  = 0,              # |log2FC| ≥ 1
+  pointSize = 2,
+  labSize   = 4.0,
+  title     = "Female DE (padj < 0.05)")
+
+EnhancedVolcano(
+  deg_combined_male,
+  lab       = rownames(deg_combined_male),
+  x         = "avg_log2FC",
+  y         = "p_val_adj",
+  pCutoff   = 0.05,
+  FCcutoff  = 0,              # |log2FC| ≥ 1
+  pointSize = 2,
+  labSize   = 4.0,
+  title     = "Female DE (padj < 0.05)")
+
+
+EnhancedVolcano(
+  deg_combined_female,
+  lab       = rownames(deg_combined_female),
+  x         = "avg_log2FC",
+  y         = "p_val",
+  pCutoff   = 0.05,
+  FCcutoff  = 0,              # |log2FC| ≥ 1
+  pointSize = 2,
+  labSize   = 4.0,
+  title     = "Female DE (p-value < 0.05)")
+
+EnhancedVolcano(
+  deg_combined_male,
+  lab       = rownames(deg_combined_male),
+  x         = "avg_log2FC",
+  y         = "p_val",
+  pCutoff   = 0.05,
+  FCcutoff  = 0,              # |log2FC| ≥ 1
+  pointSize = 2,
+  labSize   = 4.0,
+  title     = "Male DE (p-value < 0.05)")
+
+# #enrichment analysis 
+# 
+# library(dplyr)
+# library(clusterProfiler)
+# library(org.Mm.eg.db)
+# library(tibble)
+# 
+# pct_expr_female <- rowSums(rna_data_female > 0) / ncol(rna_data_female)
+# gene_universe_female <- names(pct_expr_female)[ pct_expr_female > 0.1 ] 
+# #changing the row column to actually have a header (symbol)
+# deg_combined_female_sym <- deg_combined_female %>%
+#   rownames_to_column(var = "SYMBOL")
+# female_DE_filtered <- deg_combined_female_sym %>%
+#   filter(SYMBOL %in% gene_universe_female) 
+# 
+# gene_conversion_female <- bitr(
+#   female_DE_filtered$SYMBOL,
+#   fromType = "SYMBOL",
+#   toType   = "ENSEMBL",
+#   OrgDb    = org.Mm.eg.db
+# )
+# 
+# female_DE_annotated <- female_DE_filtered %>%
+#   inner_join(gene_conversion_female, by = "SYMBOL") %>%
+#   select(ENSEMBL, avg_log2FC)
+# 
+# geneList_female <- female_DE_annotated$avg_log2FC
+# names(geneList_female) <- female_DE_annotated$ENSEMBL
+# geneList_female <- geneList_female[ !is.na(geneList_female) ]
+# geneList_female <- sort(geneList_female, decreasing = TRUE)
+# 
+# gse_results_female <- gseGO(
+#   geneList     = geneList_female,
+#   OrgDb        = org.Mm.eg.db,
+#   ont          = "BP",
+#   keyType      = "ENSEMBL",
+#   pvalueCutoff = 0.05,
+#   verbose      = TRUE
+# )
+# 
+# #males
+# pct_expr_male <- rowSums(rna_data_male > 0) / ncol(rna_data_male)
+# gene_universe_male <- names(pct_expr_male)[ pct_expr_male > 0.1 ] 
+# deg_combined_male_sym <- deg_combined_male %>%
+#   rownames_to_column(var = "SYMBOL")
+# male_DE_filtered <- deg_combined_male_sym %>%
+#   filter(SYMBOL %in% gene_universe_male) 
+# 
+# gene_conversion_male <- bitr(
+#   male_DE_filtered$SYMBOL,
+#   fromType = "SYMBOL",
+#   toType   = "ENSEMBL",
+#   OrgDb    = org.Mm.eg.db
+# )
+# male_DE_annotated <- male_DE_filtered %>%
+#   inner_join(gene_conversion_male, by = "SYMBOL") %>%
+#   select(ENSEMBL, avg_log2FC)
+# 
+# geneList_male <- male_DE_annotated$avg_log2FC
+# names(geneList_male) <- male_DE_annotated$ENSEMBL
+# geneList_male <- geneList_male[ !is.na(geneList_male) ]
+# geneList_male <- sort(geneList_male, decreasing = TRUE)
+# 
+# gse_results_male <- gseGO(
+#   geneList     = geneList_male,
+#   OrgDb        = org.Mm.eg.db,
+#   ont          = "BP",
+#   keyType      = "ENSEMBL",
+#   pvalueCutoff = 0.05,
+#   verbose      = TRUE
+# )
 
 
 
-goplot(ego_down_female, GOANCESTOR = GOBPANCESTOR)
+
+
 
 
 
