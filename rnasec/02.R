@@ -138,6 +138,7 @@ plot_cluster1_vln <- VlnPlot(combined, features = c("Pf4",
                                                     "Blvrb",
                                                     "Fcgrt"))
 
+
 #ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust01_vln.png', plot_cluster1_vln, width = 10, height = 5)
 
 #Microglia 1 - Cluster 8
@@ -170,6 +171,8 @@ plot_cluster2_vln <- VlnPlot(combined, features = c("Spp1",
 #ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust02_vln.png', plot_cluster2_vln, width = 10, height = 5)
 #microglia 2 is cluster 1
 
+plot_cluster2_vln
+
 #-------microglia 3 cell markers----
 plot_cluster3_features <- FeaturePlot(combined, features = c("Ube2c",
                                                              "Hist1h2ap",
@@ -197,7 +200,6 @@ plot_cluster_3_vln <- VlnPlot(combined, features = c("Ube2c",
                                                      "Pttg1"))
 
 #ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust03_vln.png', plot_cluster_3_vln, width = 10, height = 5)
-
 #cluster 3
 
 #-------microglia 4 cell markers-----
@@ -228,7 +230,6 @@ plot_cluster4_vln <- VlnPlot(combined, features = c("Crybb1",
 
 
 #ggsave(filename = '/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/PLOTS/clust04_vln.png', plot_cluster4_vln, width = 10, height = 5)
-
 #cluster 5, 2, 0, 7
 
 # prolif cell markers ----------------------------------------------
@@ -254,6 +255,8 @@ combined$renamed_clusters <- Idents(combined)
 table(Idents(combined)) 
 Idents(combined) <- "renamed_clusters"
 DimPlot(combined, reduction="umap", group.by="renamed_clusters")
+
+
 
 keep <- paste0("Microglia ", 1:4)
 combined_clean <- subset(combined, idents = keep)
@@ -600,7 +603,7 @@ deg_combined_male_padjustsig <- deg_combined_male %>% filter(deg_combined_male$p
 #write.csv(deg_combined_male_padjustsig, "/Users/alexlawson/GitHub/MorphologyFinalAnalysis/rnasec/Data Tables/For-Jessica-DEGS/male-DEG-pvalueADJUST-significant.csv")
 
 
-# 1) common genes (padj < 0.05 in both sexes)
+# 1) common genes (padj < 0.05 in both sexes) 
 common_padjustsig_genes <- intersect(
   rownames(deg_combined_male_padjustsig),
   rownames(deg_combined_female_padjustsig)
@@ -612,6 +615,24 @@ common_pvalsig_genes <- intersect(
   rownames(deg_combined_female_pvalsig)
 )
 
+# 1) Extract male and female log2FC for each common gene
+male_fc   <- deg_combined_male_pvalsig[common_pvalsig_genes, "avg_log2FC"]
+female_fc <- deg_combined_female_pvalsig[common_pvalsig_genes, "avg_log2FC"]
+
+# 2) Determine if they point in the same direction:
+#    (both positive or both negative). 
+#    Equivalently: product > 0.
+same_direction <- (male_fc * female_fc) > 0
+
+# 3) Combine into a data.frame
+common_fc_tbl <- data.frame(
+  gene           = common_pvalsig_genes,
+  avg_log2FC_male   = male_fc,
+  avg_log2FC_female = female_fc,
+  same_direction    = same_direction,
+  row.names      = NULL,
+  stringsAsFactors = FALSE
+)
 
 library(EnhancedVolcano)
 
@@ -621,10 +642,10 @@ EnhancedVolcano(
   x         = "avg_log2FC",
   y         = "p_val_adj",
   pCutoff   = 0.05,
-  FCcutoff  = 1,              # |log2FC| ≥ 1
-  pointSize = 1.5,
+  FCcutoff  = 0,  # |log2FC| ≥ 1
+  pointSize = 2,
   labSize   = 3.0,
-  title     = "Male DE (padj < 0.05)")
+  title     = "Male DEG (padj < 0.05)")
 
 EnhancedVolcano(
   deg_combined_female,
@@ -671,6 +692,58 @@ EnhancedVolcano(
   labSize   = 4.0,
   title     = "Male DE (p-value < 0.05)")
 
+
+
+library(Augur)
+
+# Make sure you're using the RNA assay, since that's what DE was run on
+DefaultAssay(combined_female) <- "RNA"
+
+augur_result <- calculate_auc(
+  combined_female,
+  label_col = "condition",         # or whatever column represents COLD vs CON
+  cell_type_col = "renamed_clusters",  # or your cluster ID column
+  n_threads = 8)
+
+# View AUC scores by cell type
+print(augur_result$AUC)
+
+ggplot(augur_result$AUC, aes(x = reorder(cell_type, auc), y = auc)) +
+  geom_col(fill = "skyblue") +
+  coord_flip() +
+  labs(x = "Cell Type", y = "AUC (Perturbation Score)", title = "Augur Prioritization (Female Cells)") +
+  theme_minimal()
+
+
+# Make sure you're using the RNA assay, since that's what DE was run on
+DefaultAssay(combined_male) <- "RNA"
+
+augur_result <- calculate_auc(
+  combined_male,
+  label_col = "condition",         # or whatever column represents COLD vs CON
+  cell_type_col = "renamed_clusters",  # or your cluster ID column
+  n_threads = 8)
+
+# View AUC scores by cell type
+print(augur_result$AUC)
+
+ggplot(augur_result$AUC, aes(x = reorder(cell_type, auc), y = auc)) +
+  geom_col(fill = "skyblue") +
+  coord_flip() +
+  labs(x = "Cell Type", y = "AUC (Perturbation Score)", title = "Augur Prioritization (Female Cells)") +
+  theme_minimal()
+
+
+counts_table <- table(
+  Cluster   = combined_male@meta.data$renamed_cluster,
+  Condition = combined_male@meta.data$condition
+)
+
+print(counts_table)
+
+
+# Print the counts:
+print(cell_counts)
 # #enrichment analysis 
 # 
 # library(dplyr)
