@@ -1,6 +1,9 @@
 /*
  * ImageJ Macro to take an RGB image (or folder with RGB images) and convert them to binary. 
- * Currently with a pre-set threshold: 50, 255 for hypo, 68/255 for pvn, 80/255 for arc
+ * Option to convert a folder of images or an individual image to binary. 
+ * You will likely need to modify the threshold. The number can be changed or you can use an auto threshold if that works better
+ * Most modifications will be done in the imageConversion function. We removed unsharp mask from our protocol but this can be added back in here if it works better for your images. 
+ * Currently with a pre-set threshold: 50, 255 
  * Created by Alex Lawson 
  */
  
@@ -60,16 +63,17 @@ function imageConversion(img_name){
 	//threshold set to retain the most possible microglia, without adding detail where there is none
 	//autothresholds could also be used, but as we are manually editing the data, we wanted to include
 	//rather than exclude sections
-	setThreshold(68, 255);	//modify as eeded and if it works for your images
+	setThreshold(50, 255);	//modify as eeded and if it works for your images
 	run("Despeckle");
 	setOption("BlackBackground", true);
 	run("Convert to Mask", "method=Default background=Dark dark");
 	run("Close-"); // this function connects two dark pixels if they are separated by up to 2 pixels (helpful for skeletonization)
-	//replaces a bright or dark outlier pixel by the median of the pixels in the surrounding area	//area is set as a radius of 2, threshold set to define an outlier as anything >50% different
+	//replaces a bright or dark outlier pixel by the median of the pixels in the surrounding aree
+	//area is set as a radius of 2, threshold set to define an outlier as anything >50% different
 	run("Remove Outliers...", "radius=2 threshold=50 which=Bright");
 	//Removes any cells below 600pix area using the white cell mask we created earlier (you can modify this as needed)
 	run("Analyze Particles...", "size=600-Infinity pixel show=[Masks]"); //this step is unnecessary as if you run the ciernia lab's protocol you will specify this in the single cell conversion, however we included with our preset for testing purposes
-	run("Invert LUTs");
+	run("Invert LUTs"); //sometimes fiji inverts the image (we need the microglia in white and the background in black so that is what this step does)
 	selectWindow("C2-"+img_namenoext+"-1.tif");
 	run("Close");
 }
